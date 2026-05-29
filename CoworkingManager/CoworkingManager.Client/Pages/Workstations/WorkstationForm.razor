@@ -1,0 +1,44 @@
+﻿@page "/workstations/create"
+@page "/workstations/edit/{Id:int}"
+
+<h3>@(IsEditMode ? "Edit Workstation" : "Create Workstation")</h3>
+
+@if (workstation == null || availableAreas == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
+
+    <EditForm Model="workstation" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="mb-3">
+            <label for="area" class="form-label">Area</label>
+            <InputSelect id="area" class="form-select" @bind-Value="selectedAreaId">
+                <option value="0">Select an Area...</option>
+                @foreach (var area in availableAreas)
+                {
+                    <option value="@area.IdArea">@area.Name</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <InputText id="description" class="form-control" @bind-Value="workstation.Description" />
+        </div>
+
+        <div class="mb-3">
+            <label for="maxRes" class="form-label">Max Reservations</label>
+            <InputNumber id="maxRes" class="form-control" @bind-Value="workstation.MaxReservations" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <a class="btn btn-secondary" href="/workstations">Cancel</a>
+    </EditForm>
+}

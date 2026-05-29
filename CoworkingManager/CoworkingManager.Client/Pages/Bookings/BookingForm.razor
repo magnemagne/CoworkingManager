@@ -1,0 +1,60 @@
+﻿@page "/bookings/create"
+@page "/bookings/edit/{Id:int}"
+
+<h3>@(IsEditMode ? "Edit Booking" : "Create Booking")</h3>
+
+@if (booking == null || customers == null || workstations == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
+
+    <EditForm Model="booking" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="mb-3">
+            <label for="client" class="form-label">Customer / Client</label>
+            <InputSelect id="client" class="form-select" @bind-Value="booking.Workstation.Id">
+                <option value="0">Select a Customer...</option>
+                @foreach (var customer in customers)
+                {
+                    <option value="@customer.Id">@customer.Name</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label for="workstation" class="form-label">Workstation</label>
+            <InputSelect id="workstation" class="form-select" @bind-Value="booking.Workstation.Id">
+                <option value="0">Select a Workstation...</option>
+                @foreach (var workstation in workstations)
+                {
+                    <option value="@workstation.Id">@workstation.Description (ID: @workstation.Id)</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label for="dateStart" class="form-label">Start Date & Time</label>
+            <InputDate id="dateStart" Type="InputDateType.DateTimeLocal" class="form-control" @bind-Value="booking.DateStart" />
+        </div>
+
+        <div class="mb-3">
+            <label for="dateEnd" class="form-label">End Date & Time</label>
+            <InputDate id="dateEnd" Type="InputDateType.DateTimeLocal" class="form-control" @bind-Value="booking.DateEnd" />
+        </div>
+
+        <div class="mb-3">
+            <label for="notes" class="form-label">Notes</label>
+            <InputText id="notes" class="form-control" @bind-Value="booking.Notes" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <a class="btn btn-secondary" href="/bookings">Cancel</a>
+    </EditForm>
+}

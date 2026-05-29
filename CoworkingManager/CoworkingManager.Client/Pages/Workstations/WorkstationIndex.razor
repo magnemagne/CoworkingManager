@@ -1,0 +1,45 @@
+﻿@page "/workstations"
+
+<h3>Workstations</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/workstations/create">Create New Workstation</a>
+</div>
+
+@if (workstations == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!workstations.Any())
+{
+    <p>No workstations found.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Area</th>
+                <th>Description</th>
+                <th>Max Reservations</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var w in workstations)
+            {
+                <tr>
+                    <td>@w.Id</td>
+                    <td>@(w.Area?.Name ?? "No Area")</td>
+                    <td>@w.Description</td>
+                    <td>@w.MaxReservations</td>
+                    <td>
+                        <a class="btn btn-sm btn-warning" href="/workstations/edit/@w.Id">Edit</a>
+                        <button class="btn btn-sm btn-danger" @onclick="() => DeleteWorkstation(w.Id)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

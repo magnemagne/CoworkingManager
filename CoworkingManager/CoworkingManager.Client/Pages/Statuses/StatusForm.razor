@@ -1,0 +1,39 @@
+﻿@page "/statuses/create"
+@page "/statuses/edit/{Id:int}"
+
+<h3>@(IsEditMode ? "Edit Status" : "Create Status")</h3>
+
+@if (statusItem == null || bookings == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
+
+    <EditForm Model="statusItem" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="mb-3">
+            <label for="booking" class="form-label">Associated Booking</label>
+            <InputSelect id="booking" class="form-select" @bind-Value="statusItem.Booking.Id">
+                <option value="0">Select a Booking ID...</option>
+                @foreach (var booking in bookings)
+                {
+                    <option value="@booking.Id">Booking #@booking.Id (Client: @booking.Customer.Id)</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="mb-3">
+            <label for="statusText" class="form-label">Status Description</label>
+            <InputText id="statusText" class="form-control" @bind-Value="statusItem.StatusValue" placeholder="e.g., Confirmed, Pending, Cancelled" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <a class="btn btn-secondary" href="/statuses">Cancel</a>
+    </EditForm>
+}

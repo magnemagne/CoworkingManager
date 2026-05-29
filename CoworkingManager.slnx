@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="CoworkingManager.Models/CoworkingManager.Models.csproj" />
+  <Project Path="CoworkingManager.Services/CoworkingManager.Services.csproj" />
+  <Project Path="CoworkingManager/CoworkingManager.Client/CoworkingManager.Client.csproj" />
+  <Project Path="CoworkingManager/CoworkingManager/CoworkingManager.csproj" />
+</Solution>

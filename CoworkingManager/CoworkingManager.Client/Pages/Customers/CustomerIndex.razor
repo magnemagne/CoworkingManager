@@ -1,0 +1,45 @@
+﻿@page "/customers"
+
+<h3>Customers</h3>
+
+<div class="mb-3">
+    <a class="btn btn-primary" href="/customers/create">Create New Customer</a>
+</div>
+
+@if (customers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!customers.Any())
+{
+    <p>No customers found.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in customers)
+            {
+                <tr>
+                    <td>@customer.Id</td>
+                    <td>@customer.Name</td>
+                    <td>@customer.Address</td>
+                    <td>@customer.Email</td>
+                    <td>
+                        <a class="btn btn-sm btn-warning" href="/customers/edit/@customer.Id">Edit</a>
+                        <button class="btn btn-sm btn-danger" @onclick="() => DeleteCustomer(customer.Id)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

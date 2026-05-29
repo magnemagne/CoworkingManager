@@ -1,0 +1,38 @@
+﻿@page "/customers/create"
+@page "/customers/edit/{Id:int}"
+
+<h3>@(IsEditMode ? "Edit Customer" : "Create Customer")</h3>
+
+@if (customer == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
+
+    <EditForm Model="customer" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <InputText id="name" class="form-control" @bind-Value="customer.Name" />
+        </div>
+
+        <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <InputText id="address" class="form-control" @bind-Value="customer.Address" />
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <InputText id="email" type="email" class="form-control" @bind-Value="customer.Email" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <a class="btn btn-secondary" href="/customers">Cancel</a>
+    </EditForm>
+}
